@@ -1,3 +1,7 @@
+# work-in-progress
+
+
+
 # Test files
 
 Small WGS bam  (3.3 GB)
@@ -14,3 +18,51 @@ wget https://storage.googleapis.com/gatk-test-data/wgs_bam/NA12878_24RG_b37/NA12
 
 ```
 
+# Input params
+
+* `--alignments` Path to directory containing alignment files (BAM/CRAM format) + index files 
+* `--mt-reference [rCRS|RSRS]` (default: rCRS) Mitochondrial reference genome.
+* `--reference-fa` Path to reference genome FASTA. Only required when alignments are in CRAM format 
+* `--outdir` (default: ./outputs) Output directory 
+
+# How to run
+
+```
+# Help
+nextflow run bendda/mitopy-nf -r main --help
+
+# Run on bam alignment files located in TEST/ directory
+nextflow run bendda/mitopy-nf -r main \
+    --alignments 'TEST/*.{bam, bai}' \
+    --outdir results
+
+```
+
+# Outputs 
+
+```
+outputs/
+├── alignments
+│   ├── sample_.bam
+│   ├── sample.bam.bai
+│   ├── sample_multiqc.html 
+│   ├── sample.wgs.metrics.txt
+│   ├── sample_shifted.bam
+│   ├── sample_shifted.bam.bai
+│   ├── sample_shifted_multiqc.html 
+│   ├── sample_shifted.wgs.metrics.txt
+├── annotation
+│   ├── sample_annotated.csv
+│   ├── sample_annotated.vcf
+├── coverage
+│   ├── sample_coverage.csv 
+│   ├── sample_coverage.html 
+├── haplogroup_report
+│   ├── sample_haplogroup.txt
+├── variant_calls
+│   ├── sample.vcf
+│   ├── sample.vcf.idx
+└── visualization
+    ├── sample.html
+
+```
