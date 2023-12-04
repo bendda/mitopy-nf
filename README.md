@@ -45,10 +45,6 @@ nextflow run bendda/mitopy-nf -r main \
 $ dx build --nextflow \
   --repository https://github.com/bendda/mitopy-nf \
   --destination project-xxxx:/applets/mitopy-nf
-
-Started builder job job-aaaa
-Created Nextflow pipeline applet-zzzz
-
 ```
 
 [Running a Nextflow Pipeline Applet via CLI](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines#import-via-cli)
@@ -58,9 +54,6 @@ $ dx run project-xxxx:/applets/mitopy-nf \
   -ialignments="dx://project-xxxx:/inputs/*.{bam,bai}" \
   -ioutdir="dx://project-xxxx:/outputs/"
   --brief -y
-
-job-bbbb
-
 ```
 
 
