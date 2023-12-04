@@ -1,7 +1,6 @@
 # work-in-progress
 
 
-
 # Test files
 
 Small WGS bam  (3.3 GB)
@@ -37,6 +36,34 @@ nextflow run bendda/mitopy-nf -r main \
     --outdir results
 
 ```
+
+# Run on [DNAnexus](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines)
+
+[Import pipeline via CLI](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines#import-via-cli)
+
+```
+$ dx build --nextflow \
+  --repository https://github.com/bendda/mitopy-nf \
+  --destination project-xxxx:/applets/mitopy-nf
+
+Started builder job job-aaaa
+Created Nextflow pipeline applet-zzzz
+
+```
+
+[Running a Nextflow Pipeline Applet via CLI](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines#import-via-cli)
+
+```
+$ dx run project-xxxx:/applets/mitopy-nf \
+  -i nextflow_pipeline_params="--alignments='dx://project-xxxx:/TEST/*.{bam, bai}' --outdir='dx://project-xxxx:/results'"
+  --destination project-xxxx:/path/to/destination/ \
+  --brief -y
+
+job-bbbb
+
+```
+
+
 
 # Outputs 
 
