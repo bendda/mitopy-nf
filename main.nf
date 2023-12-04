@@ -34,6 +34,11 @@ workflow {
     if (params.help) {
         help()
         exit 1
+    }
+
+    if (!params.alignments) {
+        println("--alignments param required. Please provide path to alignment files.")
+        exit 1
     }    
 
     alignments = Channel.fromFilePairs(params.alignments).map { it ->
