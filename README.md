@@ -52,7 +52,7 @@ $ dx build --nextflow \
 ```
 $ dx run project-xxxx:/applets/mitopy-nf \
   -ialignments="dx://project-xxxx:/inputs/*.{bam,bai}" \
-  -ioutdir="dx://project-xxxx:/outputs/"
+  -ioutdir="dx://project-xxxx:/outputs/" \
   --brief -y
 ```
 
