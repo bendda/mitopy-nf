@@ -89,7 +89,7 @@ process POSTPROCESS_CALLS {
     tuple val(sampleId), path('*_postprocessed.vcf.idx'), emit: vcf_idx
     
     """
-    mitopy postprocess --mt-ref ${mt_ref} --stats ${stats} ${vcf}
+    mitopy postprocess ${task.ext.args} --mt-ref ${mt_ref} --stats ${stats} ${vcf}
     """
 }
 
