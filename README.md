@@ -55,8 +55,8 @@ Created Nextflow pipeline applet-zzzz
 
 ```
 $ dx run project-xxxx:/applets/mitopy-nf \
-  -i nextflow_pipeline_params="--alignments='dx://project-xxxx:/TEST/*.{bam, bai}' --outdir='dx://project-xxxx:/results'"
-  --destination project-xxxx:/path/to/destination/ \
+  -ialignments="dx://project-xxxx:/inputs/*.{bam,bai}" \
+  -ioutdir="dx://project-xxxx:/outputs/"
   --brief -y
 
 job-bbbb
