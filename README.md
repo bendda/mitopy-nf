@@ -32,7 +32,7 @@ nextflow run bendda/mitopy-nf -r main --help
 
 # Run on bam alignment files located in TEST/ directory
 nextflow run bendda/mitopy-nf -r main \
-    --alignments 'TEST/*.{bam, bai}' \
+    --alignments 'TEST/*.{bam,bai}' \
     --outdir results
 
 ```
