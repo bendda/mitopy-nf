@@ -4,27 +4,32 @@
     "title": "mitopy-nf pipeline parameters",
     "description": "This pipeline performs mitochondrial variant discovery and analysis built upon GATK best practices.",
     "type": "object",
-    "properties": {
-        "alignments": {
-            "type": "string",
-            "description": "Path to the directory containing alignment files. Ex: path/to/bams/*.{bam,bai}"
-        },
-        "mt_reference": {
-            "type": "string",
-            "description": "Mitochondrial reference genome. Currently, rCRS and RSRS references are supported",
-            "default": "rCRS"
-        },
-        "reference_fa": {
-            "type": "string",
-            "description": "Path to reference genome FASTA. Only required if input alignments are in CRAM format."
-        },
-        "outdir": {
-            "type": "string",
-            "description": "Output directory",
-            "default": "./outputs"
+    "definitions": {
+        "main_arguments": {
+            "title": "Main arguments",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "alignments": {
+                    "type": "string",
+                    "description": "Path to the directory containing alignment files. Ex: path/to/bams/*.{bam,bai}"
+                },
+                "mt_reference": {
+                    "type": "string",
+                    "description": "Mitochondrial reference genome. Currently, rCRS and RSRS references are supported",
+                    "default": "rCRS"
+                },
+                "reference_fa": {
+                    "type": "string",
+                    "description": "Path to reference genome FASTA. Only required if input alignments are in CRAM format."
+                },
+                "outdir": {
+                    "type": "string",
+                    "description": "Output directory",
+                    "default": "./outputs"
+                }
+            }
         }
-    },
-    "required": [
-        "alignments"
-    ]
+    }
 }
