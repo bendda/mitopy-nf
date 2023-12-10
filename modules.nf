@@ -27,8 +27,7 @@ process ALIGN_MT {
     val shifted
     
     output:
-    tuple val(sampleId), path('*_dedup.bam'), emit: aligned_bam
-    tuple val(sampleId), path('*_dedup.bam.bai'), emit: aligned_bai
+    tuple val(sampleId), path('*_dedup.bam'), path('*_dedup.bam.bai'), emit: aligned_bam
     path '*.wgs.metrics.txt', emit: wgs_metrics
     path '*_multiqc.html', emit: multiqc
     
@@ -42,15 +41,13 @@ process CALL_MT {
     tag "$sampleId"
 
     input:
-    tuple val(sampleId), path(bam)
+    tuple val(sampleId), path(bam), path(bai)
     val mt_ref
     val shifted
     
     output:
 
-    tuple val(sampleId), path('*.vcf'), emit: vcf
-    tuple val(sampleId), path('*.vcf.idx'), emit: vcf_idx
-    tuple val(sampleId), path('*.vcf.stats'), emit: stats
+    tuple val(sampleId), path('*.vcf'), path('*.vcf.idx'), path('*.vcf.stats'), emit: vcf
     
     """
     mitopy call --mt-ref ${mt_ref} --shifted ${shifted} ${bam}
@@ -62,13 +59,11 @@ process MERGE_CALLS {
     tag "$sampleId"
 
     input:
-    tuple val(sampleId), path(vcf), path(vcf_shifted), path(stats), path(stats_shifted)
+    tuple val(sampleId), path(vcf), path(vcf_idx), path(stats), path(vcf_shifted), path(vcf_idx_shifted), path(stats_shifted)
     val mt_ref
     
     output:
-    tuple val(sampleId), path('*_merged.vcf'), emit: merged_vcf
-    tuple val(sampleId), path('*_merged.vcf.idx'), emit: merged_vcf_idx
-    tuple val(sampleId), path('*_merged.vcf.stats'), emit: merged_stats
+    tuple val(sampleId), path('*_merged.vcf'), path('*_merged.vcf.idx'), path('*_merged.vcf.stats'),  emit: merged_vcf
     
     """
     mitopy merge --mt-ref ${mt_ref} --stats ${stats} --stats-shifted ${stats_shifted} ${vcf} ${vcf_shifted}
@@ -80,12 +75,11 @@ process POSTPROCESS_CALLS {
     tag "$sampleId"
 
     input:
-    tuple val(sampleId), path(vcf)
-    tuple val(sampleId), path(stats)
+    tuple val(sampleId), path(vcf), path(vcf_idx), path(stats)
     val mt_ref
 
     output:
-    tuple val(sampleId), path('*_postprocessed.vcf'), emit: vcf
+    tuple val(sampleId), path('*_postprocessed.vcf'),  emit: vcf
     tuple val(sampleId), path('*_postprocessed.vcf.idx'), emit: vcf_idx
     
     """
@@ -114,8 +108,7 @@ process VISUALIZE {
     tag "$sampleId"
 
     input:
-    tuple val(sampleId), path(vcf)
-    tuple val(sampleId), path(cov_csv)
+    tuple val(sampleId), path(vcf), path(cov_csv)
     
     output:
     path '*.html', emit: vis_html
@@ -130,14 +123,11 @@ process GET_COVERAGE {
     tag "$sampleId"
 
     input:
-    tuple val(sampleId), path(bam)
-    tuple val(sampleId), path(bam_shifted)
-    tuple val(sampleId), path(bai)
-    tuple val(sampleId), path(bai_shifted)
+    tuple val(sampleId), path(bam), path(bai), path(bam_shifted), path(bai_shifted)
     
     output:
     tuple val(sampleId), path('*.csv'), emit: cov_csv
-    path '*.html', emit: cov_htm
+    path '*.html', emit: cov_html
     
     """
     mitopy per-base-coverage --mt-bai ${bai} --shifted-mt-bai ${bai_shifted} ${bam} ${bam_shifted}

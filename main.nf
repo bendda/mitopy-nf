@@ -63,24 +63,23 @@ workflow {
     // call variants in control region 
     CALL_MT_SHIFTED(ALIGN_MT_SHIFTED.out.aligned_bam, params.mt_reference, true)
 
-    // collect vcfs and stats
-    vcf_channel = CALL_MT_DEFAULT.out.vcf.join(CALL_MT_SHIFTED.out.vcf)
-    vcf_stats_channel = CALL_MT_DEFAULT.out.stats.join(CALL_MT_SHIFTED.out.stats)
-
     // merge calls
-    MERGE_CALLS(vcf_channel.join(vcf_stats_channel), params.mt_reference)
+    vcf_channel = CALL_MT_DEFAULT.out.vcf.join(CALL_MT_SHIFTED.out.vcf)
+    MERGE_CALLS(vcf_channel, params.mt_reference)
 
     // filter and normalize raw variant calls
-    POSTPROCESS_CALLS(MERGE_CALLS.out.merged_vcf, MERGE_CALLS.out.merged_stats, params.mt_reference)
+    POSTPROCESS_CALLS(MERGE_CALLS.out.merged_vcf, params.mt_reference)
 
     // annotate variants
     ANNOTATE(POSTPROCESS_CALLS.out.vcf)
 
     // get coverage
-    GET_COVERAGE(ALIGN_MT_DEFAULT.out.aligned_bam, ALIGN_MT_SHIFTED.out.aligned_bam, ALIGN_MT_DEFAULT.out.aligned_bai, ALIGN_MT_SHIFTED.out.aligned_bai)
+    bam_channel = ALIGN_MT_DEFAULT.out.aligned_bam.join(ALIGN_MT_SHIFTED.out.aligned_bam)
+    GET_COVERAGE(bam_channel)
 
     // visualize variants
-    VISUALIZE(POSTPROCESS_CALLS.out.vcf, GET_COVERAGE.out.cov_csv)
+    vis_channel = POSTPROCESS_CALLS.out.vcf.join(GET_COVERAGE.out.cov_csv)
+    VISUALIZE(vis_channel)
 
     // identify haplogroup
     IDENTIFY_HAPLOGROUP(POSTPROCESS_CALLS.out.vcf, params.mt_reference)
