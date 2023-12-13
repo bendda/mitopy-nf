@@ -41,6 +41,17 @@ workflow {
         exit 1
     }    
 
+    // Prepare reference genome
+    reference = [[], [], []]
+    if (params.reference_fa) {
+        fasta = file("${params.reference_fa}", type:'file', checkIfExists:true)
+        dict  = file("${fasta.getParent()}/${fasta.baseName}.dict", type:'file', checkIfExists:true)
+        index = file("${params.reference_fa}.fai", type:'file', checkIfExists:true)
+
+        reference = [fasta, dict, index]
+    }
+
+
     alignments = Channel.fromFilePairs(params.alignments).map { it ->
         def bam = it[1].find { f -> f.name.endsWith('bam') || f.name.endsWith('cram') }
         def bai = it[1].find { f -> f.name.endsWith('bai') || f.name.endsWith('crai')}
@@ -49,7 +60,7 @@ workflow {
     }
 
     // preprocess alignments
-    PREPROCESS_BAM(alignments, params.ref_fasta)
+    PREPROCESS_BAM(alignments, reference)
 
     // align to mt reference
     ALIGN_MT_DEFAULT(PREPROCESS_BAM.out.ubam, params.mt_reference, false)

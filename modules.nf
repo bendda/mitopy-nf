@@ -3,16 +3,16 @@ process PREPROCESS_BAM {
 
     input:
     tuple val(sampleId), path(bam), path(bai)
-    val ref_fasta  
+    tuple path(fasta), path(dict), path(index)
     
     output:
     tuple val(sampleId), path ('*_unmapped.bam'), emit: ubam
     
     """
-    if [ "${ref_fasta}" == "" ]; then
+    if [ "${fasta}" == "" ]; then
         mitopy preprocess --bai ${bai} ${bam}
     else
-        mitopy preprocess --bai ${bai} --reference-fa ${ref_fasta} ${bam}
+        mitopy preprocess --bai ${bai} --reference-fa ${fasta} ${bam}
     fi
     """
 }
