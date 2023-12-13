@@ -1,6 +1,6 @@
 # mitopy-nf
 
-Nextflow implementation of mitopy pipeline. Allows for running the pipeline efficiently on multiple samples.
+Nextflow implementation of [mitopy](https://github.com/bendda/mitopy) pipeline. Allows for running the pipeline efficiently on multiple samples.
 
 ## How to run
 
