@@ -55,12 +55,8 @@ outputs/
 ├── alignments
 │   ├── sample_.bam
 │   ├── sample.bam.bai
-│   ├── sample_multiqc.html 
-│   ├── sample.wgs.metrics.txt
 │   ├── sample_shifted.bam
 │   ├── sample_shifted.bam.bai
-│   ├── sample_shifted_multiqc.html 
-│   ├── sample_shifted.wgs.metrics.txt
 ├── annotation
 │   ├── sample_annotated.csv
 │   ├── sample_annotated.vcf
