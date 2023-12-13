@@ -22,7 +22,7 @@ To run the pipeline, please install [Nextflow](https://www.nextflow.io/docs/late
 nextflow run bendda/mitopy-nf -r main -latest --help
 ```
 ```
-# Run on  example BAM alignment files located in example_data/ directory
+# Run on example BAM alignment files located in example_data/ directory
 nextflow run bendda/mitopy-nf -r main -latest \
     --alignments 'example_data/*.{bam,bai}' \
     --outdir results
