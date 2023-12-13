@@ -28,8 +28,6 @@ process ALIGN_MT {
     
     output:
     tuple val(sampleId), path('*_dedup.bam'), path('*_dedup.bam.bai'), emit: aligned_bam
-    path '*.wgs.metrics.txt', emit: wgs_metrics
-    path '*_multiqc.html', emit: multiqc
     
     """
     mitopy align --ncores ${task.cpus} --mt-ref ${mt_ref} --shifted ${shifted} ${ubam}
@@ -130,7 +128,7 @@ process GET_COVERAGE {
     path '*.html', emit: cov_html
     
     """
-    mitopy per-base-coverage --mt-bai ${bai} --shifted-mt-bai ${bai_shifted} ${bam} ${bam_shifted}
+    mitopy coverage --mt-bai ${bai} --shifted-mt-bai ${bai_shifted} ${bam} ${bam_shifted}
     """
 }
 
