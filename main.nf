@@ -23,7 +23,7 @@ def help(){
     Script Options:
         --alignments        REGEX       Path to the directory with alignments in BAM or CRAM format.
         --mt-reference      STR         Mitochondrial reference genome. Currently, rCRS and RSRS references are supported (default: $params.mt_reference)
-        --reference-fa      STR         Path to reference genome FASTA. Only required if input alignments are in CRAM format.
+        --reference-fa      STR         Path to reference genome FASTA. Only required if input alignments are in CRAM format. FASTA index and dictionary have to be in the same directory.
         --outdir            DIR         Path for output (default: $params.outdir)
     """.stripIndent()
 }
@@ -41,7 +41,7 @@ workflow {
         exit 1
     }    
 
-    // Prepare reference genome
+    // prepare reference genome
     reference = [[], [], []]
     if (params.reference_fa) {
         fasta = file("${params.reference_fa}", type:'file', checkIfExists:true)

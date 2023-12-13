@@ -22,7 +22,7 @@
                 },
                 "reference_fa": {
                     "type": "string",
-                    "description": "Path to reference genome FASTA. Only required if input alignments are in CRAM format."
+                    "description": "Path to reference genome FASTA. Only required if input alignments are in CRAM format. FASTA index and dictionary have to be in the same directory."
                 },
                 "outdir": {
                     "type": "string",

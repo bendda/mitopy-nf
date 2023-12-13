@@ -1,43 +1,35 @@
-# work-in-progress
+# mitopy-nf
 
+Nextflow implementation of mitopy pipeline. Allows for running the pipeline efficiently on multiple samples.
 
-# Test files
+## How to run
 
-Small WGS bam  (3.3 GB)
-``` 
-wget https://storage.googleapis.com/gatk-test-data/wgs_bam/NA12878_24RG_b37/NA12878_24RG_small.b37.bam
-wget https://storage.googleapis.com/gatk-test-data/wgs_bam/NA12878_24RG_b37/NA12878_24RG_small.b37.bai
+### Prerequisities
 
-```
+To run the pipeline, please install [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html) and [Docker](https://docs.docker.com/get-docker/) on your system.
 
-Medium WGS bam (12.8 GB)
-```
-wget https://storage.googleapis.com/gatk-test-data/wgs_bam/NA12878_24RG_b37/NA12878_24RG_med.b37.bam
-wget https://storage.googleapis.com/gatk-test-data/wgs_bam/NA12878_24RG_b37/NA12878_24RG_med.b37.bai
+### Input params
 
-```
-
-# Input params
-
-* `--alignments` Path to directory containing alignment files (BAM/CRAM format) + index files 
+* `--alignments` Path to directory containing alignment files (BAM/CRAM format) and respective index files index files 
 * `--mt-reference [rCRS|RSRS]` (default: rCRS) Mitochondrial reference genome.
-* `--reference-fa` Path to reference genome FASTA. Only required when alignments are in CRAM format 
+* `--reference-fa` Path to reference genome FASTA. Only required when alignments are in CRAM format. FASTA index and dictionary have to be in the same directory.
 * `--outdir` (default: ./outputs) Output directory 
 
-# How to run
+### Run pipeline
 
 ```
 # Help
-nextflow run bendda/mitopy-nf -r main --help
-
-# Run on bam alignment files located in TEST/ directory
-nextflow run bendda/mitopy-nf -r main \
-    --alignments 'TEST/*.{bam,bai}' \
+nextflow run bendda/mitopy-nf -r main -latest --help
+```
+```
+# Run on  example BAM alignment files located in example_data/ directory
+nextflow run bendda/mitopy-nf -r main -latest \
+    --alignments 'example_data/*.{bam,bai}' \
     --outdir results
 
 ```
 
-# Run on [DNAnexus](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines)
+### Run on [DNAnexus](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines)
 
 [Import pipeline via CLI](https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines#import-via-cli)
 
@@ -52,13 +44,11 @@ $ dx build --nextflow \
 ```
 $ dx run project-xxxx:/applets/mitopy-nf \
   -ialignments="dx://project-xxxx:/inputs/*.{bam,bai}" \
-  -ioutdir="dx://project-xxxx:/outputs/" \
+  -ioutdir="dx://project-xxxx:/results/" \
   --brief -y
 ```
 
-
-
-# Outputs 
+### Outputs 
 
 ```
 outputs/
@@ -74,9 +64,6 @@ outputs/
 ├── annotation
 │   ├── sample_annotated.csv
 │   ├── sample_annotated.vcf
-├── coverage
-│   ├── sample_coverage.csv 
-│   ├── sample_coverage.html 
 ├── haplogroup_report
 │   ├── sample_haplogroup.txt
 ├── variant_calls
