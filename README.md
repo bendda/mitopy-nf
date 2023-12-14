@@ -15,16 +15,36 @@ To run the pipeline, please install [Nextflow](https://www.nextflow.io/docs/late
 * `--reference-fa` Path to reference genome FASTA. Only required when alignments are in CRAM format. FASTA index and dictionary have to be in the same directory.
 * `--outdir` (default: ./outputs) Output directory 
 
-### Run pipeline
+### Run pipeline on example data
+Clone the repository 
+
+```
+git clone https://github.com/bendda/mitopy-nf.git
+```
+
+Run the pipeline on subsampled BAM files of 3 samples from [phase3 1000 Genomes Project](https://www.internationalgenome.org/category/phase-3/):
+
+```
+cd mitopy-nf
+
+nextflow run main.nf \
+    --alignments 'example_data/*.{bam,bai}' \
+    --outdir results
+
+```
+
+### Run pipeline on your data
+
+To run pipeline on your data, it is not necessary to clone the repository, pipeline can be easily run as follows:
 
 ```
 # Help
 nextflow run bendda/mitopy-nf -r main -latest --help
 ```
 ```
-# Run on example BAM alignment files located in example_data/ directory
+# Run on example BAM alignment files located in data/ directory
 nextflow run bendda/mitopy-nf -r main -latest \
-    --alignments 'example_data/*.{bam,bai}' \
+    --alignments 'data/*.{bam,bai}' \
     --outdir results
 
 ```
